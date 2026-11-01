@@ -4,193 +4,234 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="theme-color" content="#101D3A">
+<meta name="theme-color" content="#080C15">
 <title>PDW PrabhatTalk Alarm</title>
 
 <style>
 :root {
-    --navy: #101D3A;
-    --gold: #D9B45B;
-    --indigo: #7779A9;
-    --silver: #B9C7D5;
-    --white: #F5F5FA;
+    --black: #080C15;
+    --navy: #101D32;
+    --navy-light: #1B2B43;
+    --orange: #ED8738;
+    --orange-light: #FFA65B;
+    --silver: #D3D9E3;
+    --muted: #8E9BAE;
 }
 
 * {
+    box-sizing: border-box;
     margin: 0;
     padding: 0;
-    box-sizing: border-box;
     font-family: "Segoe UI", Arial, sans-serif;
 }
 
 body {
-    min-height: 100vh;
-    overflow: hidden;
-    color: var(--white);
     background:
-        radial-gradient(ellipse at 50% 75%, #26385c 0%, transparent 48%),
-        radial-gradient(ellipse at 20% 20%, #24264a 0%, transparent 45%),
-        linear-gradient(145deg, #070D1D, #101D3A 55%, #080D1C);
+      radial-gradient(ellipse at 50% 38%, #24344D 0%, transparent 48%),
+      linear-gradient(150deg, #080C15, #111E32 60%, #080C15);
+    color: var(--silver);
+    min-height: 100vh;
+    min-height: 100dvh;
+    overflow: hidden;
 }
 
-/* COSMIC SKY */
+/* SUBTLE DIGITAL BACKGROUND */
 
-#stars {
+#particles {
     position: fixed;
     inset: 0;
     pointer-events: none;
     overflow: hidden;
-    z-index: 0;
 }
 
-.star {
+.particle {
     position: absolute;
     width: 2px;
     height: 2px;
-    background: #fff;
+    background: #C5D2E4;
     border-radius: 50%;
-    opacity: .6;
-    animation: twinkle 3s infinite alternate;
+    opacity: .3;
+    animation: shimmer 5s infinite alternate;
 }
 
-@keyframes twinkle {
-    from { opacity: .2; transform: scale(.8); }
-    to { opacity: 1; transform: scale(1.5); }
-}
-
-.nebula {
-    position: fixed;
-    width: 350px;
-    height: 350px;
-    border-radius: 50%;
-    filter: blur(100px);
-    opacity: .13;
-    pointer-events: none;
-}
-
-.nebula.one {
-    background: #7779A9;
-    top: 10%;
-    left: -100px;
-}
-
-.nebula.two {
-    background: #D9B45B;
-    bottom: 5%;
-    right: -120px;
+@keyframes shimmer {
+    from { opacity: .12; }
+    to { opacity: .55; }
 }
 
 /* HEADER */
 
 header {
     position: relative;
-    z-index: 5;
-    padding: 20px;
+    z-index: 2;
+    height: 75px;
+    padding: 0 23px;
     display: flex;
     align-items: center;
     justify-content: space-between;
+    border-bottom: 1px solid #FFFFFF12;
+    background: #080C1566;
+    backdrop-filter: blur(15px);
 }
 
 .brand {
-    color: var(--gold);
+    color: var(--orange-light);
     font-size: 19px;
     font-weight: 750;
     letter-spacing: 1px;
-    text-shadow: 0 0 15px #D9B45B55;
+    text-shadow: 0 0 20px #ED873833;
 }
 
-.settings {
-    border: none;
-    background: transparent;
+.settings-btn {
+    background: none;
     color: var(--silver);
-    font-size: 25px;
+    border: none;
+    font-size: 24px;
     cursor: pointer;
 }
 
-/* MAIN */
+/* MAIN LAYOUT */
 
-.main {
+main {
     position: relative;
-    z-index: 2;
-    max-width: 600px;
-    width: 100%;
-    height: calc(100dvh - 75px);
+    z-index: 1;
+    max-width: 650px;
     margin: auto;
+    height: calc(100dvh - 75px);
+    display: flex;
+    flex-direction: column;
+    padding: 10px 20px 105px;
+}
+
+/* DIGITAL CLOCK */
+
+.clock-area {
+    text-align: center;
+    padding: 13px 0 5px;
+}
+
+.clock {
+    font-size: clamp(35px, 9vw, 49px);
+    font-weight: 300;
+    letter-spacing: 4px;
+    color: #F2F3F5;
+}
+
+.date {
+    font-size: 12px;
+    letter-spacing: 2px;
+    color: var(--muted);
+    margin-top: 5px;
+}
+
+/* ROYAL AI BUTTON */
+
+.ai-area {
     display: flex;
     flex-direction: column;
     align-items: center;
-    padding: 10px 18px 15px;
+    padding: 17px 0 13px;
 }
 
-/* FLOATING SUN */
-
-.sun-area {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    padding: 25px 0 15px;
-}
-
-.sun {
-    width: 125px;
-    height: 125px;
+.ai-orb {
+    width: 118px;
+    height: 118px;
     border-radius: 50%;
-    background:
-        radial-gradient(circle at 30% 25%,
-        #fff5c9 0%, #e9ce86 16%,
-        #D9B45B 48%, #80602c 100%);
-    box-shadow:
-        0 0 30px #D9B45B77,
-        0 0 75px #D9B45B33,
-        inset -10px -10px 25px #332b22aa,
-        inset 8px 8px 20px #fff5c966;
-    animation: floatSun 5s ease-in-out infinite;
     cursor: pointer;
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 44px;
+
+    background:
+      radial-gradient(circle at 32% 25%,
+      #FFC18C 0%,
+      #ED8738 35%,
+      #B94D1B 75%,
+      #542A20 100%);
+
+    border: 1px solid #FFC18C99;
+
+    box-shadow:
+      0 0 25px #ED873855,
+      0 0 65px #ED873822,
+      inset -9px -12px 22px #49221977,
+      inset 6px 6px 15px #FFFFFF44;
+
     transition: .3s;
 }
 
-@keyframes floatSun {
-    0%,100% { transform: translateY(0); }
-    50% { transform: translateY(-13px); }
+.ai-orb:active {
+    transform: scale(.96);
 }
 
-.sun.listening {
-    box-shadow:
-        0 0 45px #D9B45B,
-        0 0 100px #D9B45B99;
+.ai-orb.listening {
+    animation: listening 1.4s infinite;
 }
 
-.sun.speaking {
-    animation: speakPulse .7s infinite alternate;
+.ai-orb.speaking {
+    animation: speaking .65s infinite alternate;
 }
 
-@keyframes speakPulse {
-    from { transform: scale(1); }
-    to { transform: scale(1.09); }
+@keyframes listening {
+    50% {
+        box-shadow: 0 0 55px #ED8738,
+                    0 0 90px #ED873866;
+    }
 }
 
-.sun-label {
+@keyframes speaking {
+    to { transform: scale(1.07); }
+}
+
+.ai-symbol {
+    font-size: 42px;
+    color: white;
+}
+
+.ai-label {
+    margin-top: 15px;
+    font-size: 11px;
+    letter-spacing: 2px;
+    color: var(--orange-light);
+}
+
+/* NEXT ALARM DISPLAY */
+
+.next-alarm {
+    text-align: center;
+    padding: 10px;
+    margin: 5px 0;
+}
+
+.small-heading {
+    color: var(--muted);
+    font-size: 11px;
+    letter-spacing: 2px;
+}
+
+.alarm-reason {
+    color: var(--orange-light);
+    font-size: 21px;
+    font-weight: 600;
+    margin-top: 7px;
+}
+
+.countdown {
+    font-size: 14px;
     color: var(--silver);
-    font-size: 12px;
-    margin-top: 18px;
+    margin-top: 7px;
     letter-spacing: 1px;
 }
 
 /* FLOATING CHAT */
 
 .chat {
-    width: 100%;
     flex: 1;
     overflow-y: auto;
     display: flex;
     flex-direction: column;
-    gap: 17px;
-    padding: 15px 5px 100px;
+    gap: 15px;
+    padding: 15px 4px 20px;
     scrollbar-width: none;
 }
 
@@ -199,112 +240,145 @@ header {
 }
 
 .message {
-    max-width: 85%;
-    padding: 8px 12px;
-    line-height: 1.6;
-    font-size: 15px;
-    animation: appear .35s ease;
-    text-shadow: 0 2px 8px #0008;
+    max-width: 88%;
+    padding: 9px 12px;
+    line-height: 1.55;
+    font-size: 14px;
     overflow-wrap: anywhere;
+    animation: fadeIn .3s ease;
 }
 
-@keyframes appear {
-    from { opacity: 0; transform: translateY(10px); }
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(7px); }
     to { opacity: 1; transform: translateY(0); }
 }
 
 .ai {
     align-self: flex-start;
-    color: var(--silver);
+    color: #D1D9E6;
+    border-left: 2px solid var(--orange);
 }
 
 .user {
     align-self: flex-end;
-    color: #F1D99D;
     text-align: right;
+    color: var(--orange-light);
+    border-right: 2px solid var(--orange);
 }
 
-/* BOTTOM COMMAND BAR */
+/* COMMAND BAR */
 
-.bottom-area {
+.bottom {
     position: fixed;
-    z-index: 10;
-    bottom: 0;
+    z-index: 5;
     left: 0;
+    bottom: 0;
     width: 100%;
-    padding: 15px 16px calc(15px + env(safe-area-inset-bottom));
-    background: linear-gradient(transparent, #101D3Aee 35%);
+    padding: 13px 15px calc(16px + env(safe-area-inset-bottom));
+    background: linear-gradient(transparent, #080C15 35%);
 }
 
-.input-bar {
-    max-width: 570px;
+.command-bar {
+    max-width: 610px;
     margin: auto;
     display: flex;
     align-items: center;
     padding: 7px 9px 7px 17px;
     border-radius: 40px;
-    background: #263653bb;
-    backdrop-filter: blur(18px);
-    border: 1px solid #D9B45B55;
-    box-shadow: 0 0 25px #0005;
+    border: 1px solid #ED873855;
+    background: #17263CCC;
+    backdrop-filter: blur(20px);
+    box-shadow: 0 8px 30px #0007;
 }
 
-.input-bar input {
+.command-bar input {
     flex: 1;
     min-width: 0;
+    padding: 12px 5px;
+    background: transparent;
     border: none;
     outline: none;
-    background: transparent;
     color: white;
     font-size: 15px;
-    padding: 11px 5px;
 }
 
-.input-bar input::placeholder {
-    color: #B9C7D5aa;
+.command-bar input::placeholder {
+    color: #9EADBF;
 }
 
 .circle-btn {
+    flex-shrink: 0;
     width: 43px;
     height: 43px;
-    flex-shrink: 0;
-    border: none;
     border-radius: 50%;
-    background: transparent;
-    color: var(--gold);
-    font-size: 21px;
+    border: none;
     cursor: pointer;
+    background: transparent;
+    color: var(--orange-light);
+    font-size: 20px;
 }
 
-.send {
-    background: var(--gold);
-    color: #101D3A;
-    font-size: 18px;
+.send-btn {
+    background: var(--orange);
+    color: #101522;
+    font-size: 20px;
     font-weight: bold;
 }
 
-/* ALARM STOP */
+/* STOP AND CONFIRMATION */
 
-.stop-btn {
+.alarm-overlay {
     display: none;
     position: fixed;
     z-index: 20;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    border: 1px solid #fff4;
-    border-radius: 50px;
-    padding: 17px 42px;
-    background: #D9B45B;
-    color: #101D3A;
-    font-size: 19px;
-    font-weight: bold;
-    box-shadow: 0 0 40px #D9B45B99;
-    cursor: pointer;
+    inset: 0;
+    background: #050912EE;
+    backdrop-filter: blur(18px);
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    padding: 25px;
 }
 
-.stop-btn.active {
-    display: block;
+.alarm-overlay.active {
+    display: flex;
+}
+
+.alarm-overlay h2 {
+    color: var(--orange-light);
+    font-size: 27px;
+    margin: 20px 0 12px;
+}
+
+.alarm-overlay p {
+    color: var(--silver);
+    line-height: 1.7;
+    margin-bottom: 25px;
+}
+
+.alarm-buttons {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 12px;
+}
+
+.alarm-action {
+    padding: 14px 23px;
+    border: none;
+    border-radius: 35px;
+    background: var(--orange);
+    color: #101522;
+    font-weight: 700;
+    cursor: pointer;
+    font-size: 14px;
+}
+
+.alarm-action.secondary {
+    background: #27374D;
+    color: white;
+    border: 1px solid #ED873855;
 }
 
 /* SETTINGS */
@@ -312,16 +386,18 @@ header {
 .settings-panel {
     display: none;
     position: fixed;
-    z-index: 30;
-    top: 65px;
+    z-index: 15;
+    top: 80px;
     right: 15px;
-    width: min(290px, calc(100vw - 30px));
-    padding: 20px;
-    border: 1px solid #D9B45B55;
-    border-radius: 20px;
-    background: #101D3Aee;
+    width: min(310px, calc(100vw - 30px));
+    padding: 21px;
+    background: #101D32F5;
     backdrop-filter: blur(20px);
-    box-shadow: 0 10px 40px #0008;
+    border: 1px solid #ED873855;
+    border-radius: 17px;
+    box-shadow: 0 15px 50px #0009;
+    max-height: 75dvh;
+    overflow-y: auto;
 }
 
 .settings-panel.active {
@@ -329,79 +405,122 @@ header {
 }
 
 .settings-panel h3 {
-    color: var(--gold);
-    margin-bottom: 15px;
+    color: var(--orange-light);
+    margin-bottom: 16px;
 }
 
 .setting {
-    margin: 14px 0;
+    margin: 13px 0;
 }
 
 .setting label {
     display: block;
-    color: var(--silver);
-    font-size: 13px;
+    font-size: 12px;
+    color: var(--muted);
     margin-bottom: 7px;
 }
 
-.setting select, .setting input {
+.setting select,
+.setting input {
     width: 100%;
-    padding: 10px;
-    border-radius: 10px;
-    border: 1px solid #ffffff33;
-    background: #172746;
+    padding: 11px;
+    border-radius: 9px;
+    background: #17263D;
+    border: 1px solid #FFFFFF22;
     color: white;
 }
 
-@media(max-height: 650px) {
-    .sun-area { padding: 8px 0; }
-    .sun { width: 90px; height: 90px; }
-    .sun-label { margin-top: 10px; }
+@media(max-height: 700px) {
+    .clock-area { padding: 2px; }
+    .ai-area { padding: 5px; }
+    .ai-orb { width: 85px; height: 85px; }
+    .ai-symbol { font-size: 32px; }
+    .next-alarm { padding: 4px; }
 }
 </style>
 </head>
 
 <body>
 
-<div id="stars"></div>
-<div class="nebula one"></div>
-<div class="nebula two"></div>
+<div id="particles"></div>
 
 <header>
     <div class="brand">PDW PrabhatTalk Alarm</div>
-    <button class="settings" id="settingsButton">⚙</button>
+    <button class="settings-btn" id="settingsButton">⚙</button>
 </header>
 
-<main class="main">
+<main>
 
-    <section class="sun-area">
-        <div class="sun" id="sun">☀</div>
-        <div class="sun-label" id="status">
-            YOUR COSMIC MORNING COMPANION
+    <section class="clock-area">
+        <div class="clock" id="clock">00:00</div>
+        <div class="date" id="date"></div>
+    </section>
+
+    <section class="ai-area">
+        <div class="ai-orb" id="orb">
+            <span class="ai-symbol">✦</span>
         </div>
+        <div class="ai-label" id="status">
+            YOUR PERSONAL MORNING ASSISTANT
+        </div>
+    </section>
+
+    <section class="next-alarm">
+        <div class="small-heading">YOUR NEXT REMINDER</div>
+        <div class="alarm-reason" id="reasonDisplay">
+            No active reminder
+        </div>
+        <div class="countdown" id="countdown"></div>
     </section>
 
     <section class="chat" id="chat"></section>
 
 </main>
 
-<div class="bottom-area">
-    <div class="input-bar">
-        <input
-            type="text"
-            id="command"
-            placeholder="Tell me what you need..."
-            autocomplete="off"
-        >
+<div class="bottom">
+    <div class="command-bar">
+        <input id="command"
+          placeholder="Tell me your task or set an alarm..."
+          autocomplete="off">
         <button class="circle-btn" id="mic">🎙</button>
-        <button class="circle-btn send" id="send">➤</button>
+        <button class="circle-btn send-btn" id="send">➤</button>
     </div>
 </div>
 
-<button class="stop-btn" id="stop">STOP ALARM</button>
+<!-- ALARM SCREEN -->
+
+<div class="alarm-overlay" id="alarmScreen">
+    <div class="ai-orb" style="width:110px;height:110px">
+        <span class="ai-symbol">✦</span>
+    </div>
+
+    <h2>It's Time!</h2>
+
+    <p id="alarmMessage">
+        Your planned task is waiting.
+    </p>
+
+    <p id="repeatStatus">Wake-up announcement 1 of 3</p>
+
+    <div class="alarm-buttons">
+        <button class="alarm-action" id="awake">
+            OKAY, OKAY, I AM AWAKE
+        </button>
+
+        <button class="alarm-action secondary" id="alarmMic">
+            🎙 SPEAK CONFIRMATION
+        </button>
+
+        <button class="alarm-action secondary" id="stopAlarm">
+            STOP
+        </button>
+    </div>
+</div>
+
+<!-- SETTINGS -->
 
 <div class="settings-panel" id="settingsPanel">
-    <h3>⚙ Settings</h3>
+    <h3>Assistant Settings</h3>
 
     <div class="setting">
         <label>Language / भाषा</label>
@@ -413,437 +532,691 @@ header {
     </div>
 
     <div class="setting">
-        <label>Speech Speed</label>
+        <label>Speech speed</label>
         <select id="speed">
             <option value="0.9">0.9x</option>
-            <option value="1">1.0x</option>
+            <option value="1" selected>1.0x</option>
             <option value="1.1">1.1x</option>
             <option value="1.25">1.25x</option>
         </select>
     </div>
 
     <div class="setting">
-        <label>Clock Format</label>
-        <select id="clock">
+        <label>Assistant name</label>
+        <input id="assistantName" placeholder="Assistant name">
+    </div>
+
+    <div class="setting">
+        <label>Activation phrase</label>
+        <input id="activation" placeholder="Activation phrase">
+    </div>
+
+    <div class="setting">
+        <label>Clock format</label>
+        <select id="clockFormat">
             <option value="12">12-hour</option>
             <option value="24">24-hour</option>
         </select>
     </div>
 
     <div class="setting">
-        <label>Assistant Name</label>
-        <input id="assistantName" placeholder="Enter assistant name">
-    </div>
-
-    <div class="setting">
-        <label>Activation Phrase</label>
-        <input id="activation" placeholder="Enter activation phrase">
+        <button class="alarm-action secondary"
+          id="notifications" style="width:100%">
+            ENABLE NOTIFICATIONS
+        </button>
     </div>
 </div>
 
 <script>
-/* COSMIC STARS */
 
-const stars = document.getElementById("stars");
+/* --------------------------------
+   INITIAL SETTINGS
+-------------------------------- */
 
-for (let i = 0; i < 130; i++) {
-    const star = document.createElement("div");
-    star.className = "star";
-    star.style.left = Math.random() * 100 + "%";
-    star.style.top = Math.random() * 100 + "%";
-    star.style.animationDelay = Math.random() * 4 + "s";
-    stars.appendChild(star);
-}
+const $ = id => document.getElementById(id);
 
-/* ELEMENTS */
+let assistantName =
+    localStorage.getItem("assistantName") || "Prabhat";
 
-const chat = document.getElementById("chat");
-const command = document.getElementById("command");
-const sun = document.getElementById("sun");
-const statusText = document.getElementById("status");
-const stopBtn = document.getElementById("stop");
-const language = document.getElementById("language");
-const speed = document.getElementById("speed");
-const settingsPanel = document.getElementById("settingsPanel");
+let activation =
+    localStorage.getItem("activation") || "Hello Prabhat";
 
-let alarmTimeout = null;
-let alarmInterval = null;
+let alarmTarget = null;
+let alarmReason = "";
+let alarmTimer = null;
+let countdownTimer = null;
 let alarmActive = false;
+let announcements = 0;
+let announcementTimer = null;
 let audioContext = null;
-let alarmEndTime = null;
 
-let conversation = [];
-let assistantName = localStorage.getItem("assistantName") || "Prabhat";
-let activationPhrase = localStorage.getItem("activation") || "Hello Prabhat";
+let alarmData = null;
 
-/* SETTINGS */
+$("assistantName").value = assistantName;
+$("activation").value = activation;
 
-document.getElementById("settingsButton").onclick = () => {
-    settingsPanel.classList.toggle("active");
-};
+/* --------------------------------
+   PARTICLES
+-------------------------------- */
 
-document.getElementById("assistantName").value = assistantName;
-document.getElementById("activation").value = activationPhrase;
-
-document.getElementById("assistantName").onchange = e => {
-    assistantName = e.target.value.trim() || "Prabhat";
-    localStorage.setItem("assistantName", assistantName);
-};
-
-document.getElementById("activation").onchange = e => {
-    activationPhrase = e.target.value.trim();
-    localStorage.setItem("activation", activationPhrase);
-};
-
-/* CHAT */
-
-function addMessage(text, sender) {
-    const bubble = document.createElement("div");
-    bubble.className = "message " + sender;
-    bubble.textContent = text;
-    chat.appendChild(bubble);
-    chat.scrollTop = chat.scrollHeight;
-    conversation.push({text, sender});
-
-    if (conversation.length > 60) conversation.shift();
+for (let i = 0; i < 95; i++) {
+    const p = document.createElement("div");
+    p.className = "particle";
+    p.style.left = Math.random() * 100 + "%";
+    p.style.top = Math.random() * 100 + "%";
+    p.style.animationDelay = Math.random() * 5 + "s";
+    $("particles").appendChild(p);
 }
 
-/* VOICE */
+/* --------------------------------
+   CLOCK
+-------------------------------- */
 
-function speak(text) {
-    if (!("speechSynthesis" in window)) return;
+function updateClock() {
+    const now = new Date();
+    const format = $("clockFormat").value;
+
+    $("clock").textContent =
+        now.toLocaleTimeString([], {
+            hour: "2-digit",
+            minute: "2-digit",
+            hour12: format === "12"
+        });
+
+    $("date").textContent =
+        now.toLocaleDateString([], {
+            weekday: "long",
+            day: "numeric",
+            month: "long",
+            year: "numeric"
+        });
+}
+
+updateClock();
+setInterval(updateClock, 1000);
+
+/* --------------------------------
+   CHAT
+-------------------------------- */
+
+function message(text, type = "ai") {
+    const div = document.createElement("div");
+    div.className = "message " + type;
+    div.textContent = text;
+    $("chat").appendChild(div);
+    $("chat").scrollTop = $("chat").scrollHeight;
+}
+
+/* --------------------------------
+   VOICE SYNTHESIS
+-------------------------------- */
+
+function speak(text, onEnd) {
+    if (!("speechSynthesis" in window)) {
+        if (onEnd) onEnd();
+        return;
+    }
 
     speechSynthesis.cancel();
 
     const utterance = new SpeechSynthesisUtterance(text);
-    utterance.lang = language.value;
-    utterance.rate = Number(speed.value);
+
+    utterance.lang = $("language").value;
+    utterance.rate = Number($("speed").value);
     utterance.pitch = 1;
 
-    utterance.onstart = () => sun.classList.add("speaking");
-    utterance.onend = () => sun.classList.remove("speaking");
-    utterance.onerror = () => sun.classList.remove("speaking");
+    utterance.onstart = () => {
+        $("orb").classList.add("speaking");
+        $("status").textContent = "ASSISTANT SPEAKING";
+    };
+
+    utterance.onend = () => {
+        $("orb").classList.remove("speaking");
+        $("status").textContent =
+            "YOUR PERSONAL MORNING ASSISTANT";
+
+        if (onEnd) onEnd();
+    };
+
+    utterance.onerror = () => {
+        $("orb").classList.remove("speaking");
+        if (onEnd) onEnd();
+    };
 
     speechSynthesis.speak(utterance);
 }
 
-function respond(text) {
-    addMessage(text, "ai");
+function reply(text) {
+    message(text, "ai");
     speak(text);
 }
 
-/* ALARM SOUND */
+/* --------------------------------
+   REASON EXTRACTION
+-------------------------------- */
 
-function playTone() {
-    const AudioContextClass =
+function extractReason(input) {
+    let text = input.trim();
+
+    text = text.replace(
+        /^(?:please\s+)?(?:set|start|put)\s+(?:an?\s+)?alarm\s+(?:for|after)\s+/i,
+        ""
+    );
+
+    text = text.replace(
+        /^(?:wake me up|remind me)\s+(?:in|after|at)\s+/i,
+        ""
+    );
+
+    text = text.replace(
+        /^\d+(?:\.\d+)?\s*(?:seconds?|secs?|minutes?|mins?|hours?|hrs?)\s*(?:from now)?\s*/i,
+        ""
+    );
+
+    text = text.replace(
+        /^(?:i will|i'll|i am going to|i want to)\s+/i,
+        ""
+    );
+
+    text = text.replace(
+        /^(?:do|complete|finish)\s+(?:my|the)\s+/i,
+        ""
+    );
+
+    text = text.replace(
+        /^(?:for|to)\s+/i, ""
+    );
+
+    text = text.replace(/[.!?]+$/, "").trim();
+
+    return text || "your planned task";
+}
+
+/* --------------------------------
+   ALARM COMMAND PARSER
+-------------------------------- */
+
+function parseAlarm(input) {
+
+    const text = input.trim();
+
+    let match = text.match(
+        /(?:after|in|for)\s+(\d+(?:\.\d+)?)\s*(seconds?|secs?|minutes?|mins?|hours?|hrs?)/i
+    );
+
+    if (!match) {
+        match = text.match(
+            /(\d+(?:\.\d+)?)\s*(seconds?|secs?|minutes?|mins?|hours?|hrs?)\s+(?:later|from now)/i
+        );
+    }
+
+    if (!match) return null;
+
+    const number = Number(match[1]);
+    const unit = match[2].toLowerCase();
+
+    if (!Number.isFinite(number) || number <= 0) return null;
+
+    let multiplier = 60000;
+
+    if (unit.startsWith("sec")) multiplier = 1000;
+
+    if (unit.startsWith("hour") || unit.startsWith("hr")) {
+        multiplier = 3600000;
+    }
+
+    const milliseconds = number * multiplier;
+
+    if (milliseconds < 1000 || milliseconds > 30 * 24 * 3600000) {
+        return null;
+    }
+
+    return {
+        milliseconds,
+        reason: extractReason(text)
+    };
+}
+
+/* --------------------------------
+   SAVE ALARM
+-------------------------------- */
+
+function setAlarm(milliseconds, reason) {
+
+    clearTimeout(alarmTimer);
+    clearInterval(countdownTimer);
+
+    alarmTarget = Date.now() + milliseconds;
+    alarmReason = reason;
+
+    alarmData = {
+        target: alarmTarget,
+        reason: alarmReason
+    };
+
+    localStorage.setItem(
+        "pdw_alarm",
+        JSON.stringify(alarmData)
+    );
+
+    $("reasonDisplay").textContent = alarmReason;
+    $("countdown").textContent = "Alarm scheduled";
+
+    updateCountdown();
+
+    countdownTimer = setInterval(updateCountdown, 1000);
+
+    alarmTimer = setTimeout(
+        triggerAlarm,
+        Math.max(0, alarmTarget - Date.now())
+    );
+
+    const time = new Date(alarmTarget).toLocaleTimeString(
+        [],
+        {hour: "2-digit", minute: "2-digit"}
+    );
+
+    const confirmation =
+        "Your alarm is set for " +
+        millisecondsToWords(milliseconds) +
+        " from now. I will remind you about " +
+        reason + " at " + time + ".";
+
+    message(confirmation);
+    speak(confirmation);
+}
+
+function millisecondsToWords(ms) {
+    if (ms < 60000) {
+        return Math.round(ms / 1000) + " seconds";
+    }
+
+    if (ms < 3600000) {
+        return Math.round(ms / 60000) + " minutes";
+    }
+
+    const hours = Math.floor(ms / 3600000);
+    const minutes = Math.round((ms % 3600000) / 60000);
+
+    return hours + " hours and " + minutes + " minutes";
+}
+
+/* --------------------------------
+   COUNTDOWN
+-------------------------------- */
+
+function updateCountdown() {
+    if (!alarmTarget) return;
+
+    const remaining = Math.max(0, alarmTarget - Date.now());
+
+    const hours = Math.floor(remaining / 3600000);
+    const minutes = Math.floor((remaining % 3600000) / 60000);
+    const seconds = Math.floor((remaining % 60000) / 1000);
+
+    $("countdown").textContent =
+        "TIME REMAINING  " +
+        String(hours).padStart(2, "0") + ":" +
+        String(minutes).padStart(2, "0") + ":" +
+        String(seconds).padStart(2, "0");
+}
+
+/* --------------------------------
+   ALARM SOUND
+-------------------------------- */
+
+function playAlarmSound() {
+
+    const AudioClass =
         window.AudioContext || window.webkitAudioContext;
 
-    if (!AudioContextClass) return;
+    if (!AudioClass) return;
 
-    audioContext = audioContext || new AudioContextClass();
+    audioContext = audioContext || new AudioClass();
 
     audioContext.resume().then(() => {
+
         for (let i = 0; i < 3; i++) {
+
             const oscillator = audioContext.createOscillator();
             const gain = audioContext.createGain();
 
-            oscillator.type = "sine";
-            oscillator.frequency.value = 660 + i * 110;
+            const start = audioContext.currentTime + i * 0.7;
 
-            gain.gain.setValueAtTime(0, audioContext.currentTime + i * 0.65);
-            gain.gain.linearRampToValueAtTime(
-                0.25, audioContext.currentTime + i * 0.65 + 0.05
-            );
-            gain.gain.setValueAtTime(
-                0, audioContext.currentTime + i * 0.65 + 0.45
-            );
+            oscillator.type = "sine";
+            oscillator.frequency.value = 740;
+
+            gain.gain.setValueAtTime(0, start);
+            gain.gain.linearRampToValueAtTime(0.2, start + 0.08);
+            gain.gain.setValueAtTime(0, start + 0.5);
 
             oscillator.connect(gain);
             gain.connect(audioContext.destination);
 
-            oscillator.start(audioContext.currentTime + i * 0.65);
-            oscillator.stop(audioContext.currentTime + i * 0.65 + 0.5);
+            oscillator.start(start);
+            oscillator.stop(start + 0.55);
         }
     });
 }
 
-/* SET ALARM */
+/* --------------------------------
+   SPEAK THE REASON THREE TIMES
+-------------------------------- */
 
-function setAlarm(milliseconds) {
-    clearTimeout(alarmTimeout);
-    clearInterval(alarmInterval);
+function alarmAnnouncement() {
 
-    const target = Date.now() + milliseconds;
-    alarmEndTime = target;
+    if (!alarmActive || announcements >= 3) return;
 
-    alarmTimeout = setTimeout(() => {
-        startAlarm();
-    }, milliseconds);
+    announcements++;
 
-    respond("Your alarm is successfully scheduled. I will wake you up at " +
-        new Date(target).toLocaleTimeString([], {
-            hour: "2-digit",
-            minute: "2-digit"
-        }) + ".");
+    $("repeatStatus").textContent =
+        "WAKE-UP ANNOUNCEMENT " + announcements + " OF 3";
+
+    const speech =
+        "Good morning. You asked me to wake you up for " +
+        alarmReason +
+        ". It is time now. Please get ready and begin your task. " +
+        "Say, Okay, okay, I am awake, when you are awake.";
+
+    playAlarmSound();
+
+    $("alarmMessage").textContent =
+        "Your planned task: " + alarmReason;
+
+    speak(speech, () => {
+
+        if (alarmActive && announcements < 3) {
+            announcementTimer = setTimeout(
+                alarmAnnouncement, 5000
+            );
+        }
+    });
 }
 
-/* ALARM RINGING */
+/* --------------------------------
+   TRIGGER ALARM
+-------------------------------- */
 
-function startAlarm() {
+function triggerAlarm() {
+
     alarmActive = true;
-    stopBtn.classList.add("active");
-    sun.classList.add("listening");
-    statusText.textContent = "YOUR WAKE-UP TIME HAS ARRIVED";
+    announcements = 0;
 
-    playTone();
+    clearInterval(countdownTimer);
+    alarmTarget = null;
 
-    alarmInterval = setInterval(() => {
-        if (alarmActive) playTone();
-    }, 5000);
+    $("countdown").textContent = "ALARM ACTIVE";
+    $("alarmScreen").classList.add("active");
 
     if ("Notification" in window &&
         Notification.permission === "granted") {
+
         new Notification("PDW PrabhatTalk Alarm", {
-            body: "Wake up! Your alarm is ringing."
+            body: "Time for " + alarmReason
         });
     }
+
+    alarmAnnouncement();
 }
 
-/* STOP ALARM */
+/* --------------------------------
+   STOP / AWAKE CONFIRMATION
+-------------------------------- */
 
 function stopAlarm() {
-    if (!alarmActive && !alarmTimeout) return;
 
-    clearTimeout(alarmTimeout);
-    clearInterval(alarmInterval);
+    if (alarmTimer) clearTimeout(alarmTimer);
+    if (announcementTimer) clearTimeout(announcementTimer);
 
-    alarmTimeout = null;
-    alarmInterval = null;
-    alarmEndTime = null;
+    clearInterval(countdownTimer);
+
+    alarmTimer = null;
+    announcementTimer = null;
+    countdownTimer = null;
+
     alarmActive = false;
+    alarmTarget = null;
 
-    stopBtn.classList.remove("active");
-    sun.classList.remove("listening");
-    statusText.textContent = "YOUR COSMIC MORNING COMPANION";
+    localStorage.removeItem("pdw_alarm");
+
+    $("alarmScreen").classList.remove("active");
+    $("countdown").textContent = "";
+    $("reasonDisplay").textContent = "No active reminder";
+
+    if ("speechSynthesis" in window) {
+        speechSynthesis.cancel();
+    }
 
     if (audioContext) audioContext.suspend();
 
-    if ("speechSynthesis" in window) speechSynthesis.cancel();
-
-    respond("Wonderful! You're awake. Let's make this morning productive.");
+    reply("Wonderful! You're awake. You planned to " +
+          alarmReason + ". Let's begin your day!");
 }
 
-stopBtn.onclick = stopAlarm;
+$("awake").onclick = stopAlarm;
+$("stopAlarm").onclick = stopAlarm;
 
-/* COMMAND INTERPRETATION */
+/* --------------------------------
+   SPEECH RECOGNITION
+-------------------------------- */
 
-function processCommand(input) {
-    const text = input.trim();
-    if (!text) return;
-
-    addMessage(text, "user");
-    command.value = "";
-
-    const lower = text.toLowerCase();
-
-    if (
-        lower.includes("stop alarm") ||
-        lower.includes("cancel alarm") ||
-        lower.includes("i am awake") ||
-        lower.includes("okay okay")
-    ) {
-        stopAlarm();
-        return;
-    }
-
-    if (
-        lower.includes("cancel") &&
-        (lower.includes("alarm") || lower.includes("reminder"))
-    ) {
-        clearTimeout(alarmTimeout);
-        clearInterval(alarmInterval);
-        alarmTimeout = null;
-        alarmInterval = null;
-        alarmEndTime = null;
-        alarmActive = false;
-        stopBtn.classList.remove("active");
-        sun.classList.remove("listening");
-        respond("Your alarm has been cancelled.");
-        return;
-    }
-
-    /* TIME COMMANDS */
-
-    const match = lower.match(
-        /(\d+(?:\.\d+)?)\s*(seconds?|secs?|minutes?|mins?|hours?|hrs?)/
-    );
-
-    const devanagari = text.match(
-        /(\d+)\s*(मिनिट|मिनिटांनी|तास|तासांनी)/
-    );
-
-    if (
-        match &&
-        /(alarm|wake|remind|set|mujhe|uthana|uthao|lagao|baad|after)/i.test(lower)
-    ) {
-        const number = Number(match[1]);
-        const unit = match[2];
-
-        let multiplier = 60000;
-
-        if (unit.startsWith("sec")) multiplier = 1000;
-        if (unit.startsWith("hour") || unit.startsWith("hr")) {
-            multiplier = 3600000;
-        }
-
-        if (number > 0 && number <= 8760) {
-            setAlarm(number * multiplier);
-            return;
-        }
-    }
-
-    if (devanagari && /(अलार्म|उठव|लाव|जाग)/.test(text)) {
-        const number = Number(devanagari[1]);
-        const multiplier = devanagari[2].includes("तास")
-            ? 3600000 : 60000;
-
-        setAlarm(number * multiplier);
-        return;
-    }
-
-    /* CLOCK TIME COMMAND */
-
-    if (/tomorrow|उद्या/.test(lower) &&
-        /(\d{1,2})(?::(\d{2}))?\s*(am|pm)/i.test(lower)) {
-
-        const timeMatch = lower.match(
-            /(\d{1,2})(?::(\d{2}))?\s*(am|pm)/i
-        );
-
-        let hour = Number(timeMatch[1]);
-        const minute = Number(timeMatch[2] || 0);
-
-        if (timeMatch[3] === "pm" && hour !== 12) hour += 12;
-        if (timeMatch[3] === "am" && hour === 12) hour = 0;
-
-        const target = new Date();
-        target.setDate(target.getDate() + 1);
-        target.setHours(hour, minute, 0, 0);
-
-        setAlarm(target.getTime() - Date.now());
-        return;
-    }
-
-    /* NATURAL CONVERSATION */
-
-    if (conversation.length < 5) {
-        respond(
-            "Namaste! I am " + assistantName +
-            ". You can tell me your plans, set an alarm or talk about your morning routine."
-        );
-    } else {
-        respond(
-            "I am listening. Tell me more, or give me an alarm command. " +
-            "For example, set alarm for 1 hour."
-        );
-    }
-}
-
-/* INPUT */
-
-document.getElementById("send").onclick = () =>
-    processCommand(command.value);
-
-command.addEventListener("keydown", e => {
-    if (e.key === "Enter") processCommand(command.value);
-});
-
-/* SPEECH RECOGNITION */
-
-const Recognition =
-    window.SpeechRecognition || window.webkitSpeechRecognition;
+const SpeechRecognition =
+    window.SpeechRecognition ||
+    window.webkitSpeechRecognition;
 
 let recognition = null;
 
-if (Recognition) {
-    recognition = new Recognition();
+if (SpeechRecognition) {
+
+    recognition = new SpeechRecognition();
     recognition.continuous = false;
     recognition.interimResults = false;
 
     recognition.onstart = () => {
-        sun.classList.add("listening");
-        statusText.textContent = "LISTENING TO YOUR VOICE...";
+        $("orb").classList.add("listening");
+        $("status").textContent = "LISTENING...";
     };
 
     recognition.onresult = event => {
-        const transcript = event.results[0][0].transcript;
 
-        sun.classList.remove("listening");
-        statusText.textContent = "YOUR COSMIC MORNING COMPANION";
+        const text = event.results[0][0].transcript;
+
+        $("orb").classList.remove("listening");
 
         if (alarmActive &&
-            /(okay.*awake|i am awake|i'm awake)/i.test(transcript)) {
+            /okay.*awake|i am awake|i'm awake|उठ गया|उठ गई|मी उठलो|मी उठले/i.test(text)) {
+
             stopAlarm();
             return;
         }
 
-        processCommand(transcript);
+        processCommand(text);
     };
 
     recognition.onerror = () => {
-        sun.classList.remove("listening");
-        statusText.textContent = "VOICE RECOGNITION UNAVAILABLE";
+        $("orb").classList.remove("listening");
+        $("status").textContent = "VOICE INPUT UNAVAILABLE";
     };
 
     recognition.onend = () => {
-        sun.classList.remove("listening");
-        if (!alarmActive) {
-            statusText.textContent =
-                "YOUR COSMIC MORNING COMPANION";
-        }
+        $("orb").classList.remove("listening");
     };
 }
 
-document.getElementById("mic").onclick = () => {
+function startListening() {
+
     if (!recognition) {
-        respond("Voice recognition is not supported in this browser.");
+        reply("Voice recognition is not supported in this browser.");
         return;
     }
 
-    recognition.lang = language.value;
+    recognition.lang = $("language").value;
 
     try {
         recognition.start();
-    } catch (error) {
-        statusText.textContent = "PLEASE TRY AGAIN";
+    } catch (e) {
+        $("status").textContent = "PLEASE TRY AGAIN";
     }
-};
+}
 
-/* NOTIFICATIONS */
+$("mic").onclick = startListening;
+$("orb").onclick = startListening;
 
-if ("Notification" in window &&
-    Notification.permission === "default") {
-    // Ask only after a deliberate user action.
-    document.getElementById("settingsButton").addEventListener(
-        "contextmenu", async e => {
-            e.preventDefault();
-            await Notification.requestPermission();
+$("alarmMic").onclick = startListening;
+
+/* --------------------------------
+   MAIN COMMAND SYSTEM
+-------------------------------- */
+
+function processCommand(input) {
+
+    const text = input.trim();
+
+    if (!text) return;
+
+    message(text, "user");
+
+    const lower = text.toLowerCase();
+
+    if (/okay.*awake|i am awake|i'm awake/i.test(lower) &&
+        alarmActive) {
+        stopAlarm();
+        return;
+    }
+
+    if (/stop alarm|cancel alarm/i.test(lower)) {
+
+        if (alarmActive || alarmTarget) {
+            stopAlarm();
+        } else {
+            reply("There is no active alarm.");
         }
+
+        return;
+    }
+
+    const parsed = parseAlarm(text);
+
+    if (parsed) {
+
+        // Ask for notification permission after user action.
+        if ("Notification" in window &&
+            Notification.permission === "default") {
+            Notification.requestPermission();
+        }
+
+        setAlarm(parsed.milliseconds, parsed.reason);
+        return;
+    }
+
+    if (/what is my alarm|show my alarm/i.test(lower)) {
+
+        if (alarmTarget) {
+            reply("Your next alarm is for " + alarmReason +
+                " at " + new Date(alarmTarget).toLocaleTimeString() + ".");
+        } else {
+            reply("You have no active alarm.");
+        }
+
+        return;
+    }
+
+    if (/hello|hi|namaste/i.test(lower)) {
+        reply("Namaste! I am " + assistantName +
+            ". Tell me what you would like to do today.");
+        return;
+    }
+
+    reply(
+        "I understand. Tell me more about your task, or set an alarm. " +
+        "For example, say: After 5 minutes I will study."
     );
 }
 
-/* SURYA ORB */
+/* --------------------------------
+   INPUT
+-------------------------------- */
 
-sun.onclick = () => {
-    if (recognition) {
-        recognition.lang = language.value;
-        try {
-            recognition.start();
-        } catch (error) {}
+$("send").onclick = () => {
+    const text = $("command").value;
+    $("command").value = "";
+    processCommand(text);
+};
+
+$("command").addEventListener("keydown", e => {
+    if (e.key === "Enter") $("send").click();
+});
+
+/* --------------------------------
+   SETTINGS
+-------------------------------- */
+
+$("settingsButton").onclick = () => {
+    $("settingsPanel").classList.toggle("active");
+};
+
+$("assistantName").onchange = e => {
+    assistantName = e.target.value.trim() || "Prabhat";
+    localStorage.setItem("assistantName", assistantName);
+};
+
+$("activation").onchange = e => {
+    activation = e.target.value.trim();
+    localStorage.setItem("activation", activation);
+};
+
+$("notifications").onclick = async () => {
+    if ("Notification" in window) {
+        const result = await Notification.requestPermission();
+        reply("Notification permission: " + result);
+    } else {
+        reply("Notifications are not supported.");
     }
 };
 
+/* --------------------------------
+   RESTORE SAVED ALARM
+-------------------------------- */
+
+function restoreAlarm() {
+
+    const saved = localStorage.getItem("pdw_alarm");
+
+    if (!saved) return;
+
+    try {
+        const data = JSON.parse(saved);
+
+        if (data.target > Date.now()) {
+            alarmTarget = data.target;
+            alarmReason = data.reason;
+
+            $("reasonDisplay").textContent = alarmReason;
+
+            updateCountdown();
+
+            countdownTimer = setInterval(updateCountdown, 1000);
+
+            alarmTimer = setTimeout(
+                triggerAlarm,
+                alarmTarget - Date.now()
+            );
+
+        } else {
+            alarmTarget = data.target;
+            alarmReason = data.reason;
+            triggerAlarm();
+        }
+
+    } catch (e) {
+        localStorage.removeItem("pdw_alarm");
+    }
+}
+
+restoreAlarm();
+
 /* NO AUTOMATIC GREETING */
+
 </script>
 
 </body>
