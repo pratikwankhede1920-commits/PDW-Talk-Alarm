@@ -1,493 +1,850 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PDW PrabhatTalk Alarm</title>
-    <style>
-        :root {
-            --bg-night: #060913;
-            --night-sky-gradient: linear-gradient(135deg, #060913 0%, #111827 50%, #1f2937 100%);
-            --surya-sunrise: #f97316;
-            --surya-glow: rgba(249, 115, 22, 0.4);
-            --earth-slate: #334155;
-            --earth-slate-hover: #475569;
-            --text-light: #f8fafc;
-            --text-muted: #cbd5e1;
-            --chat-bubble-ai: #1e293b;
-            --chat-bubble-user: #0369a1;
-        }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#101D3A">
+<title>PDW PrabhatTalk Alarm</title>
 
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-        }
+<style>
+:root {
+    --navy: #101D3A;
+    --gold: #D9B45B;
+    --indigo: #7779A9;
+    --silver: #B9C7D5;
+    --white: #F5F5FA;
+}
 
-        body {
-            background: var(--night-sky-gradient);
-            color: var(--text-light);
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-            overflow-x: hidden;
-            position: relative;
-        }
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "Segoe UI", Arial, sans-serif;
+}
 
-        /* Cosmic Stars Background */
-        body::before {
-            content: "";
-            position: absolute;
-            top: 0; left: 0; width: 100%; height: 100%;
-            background-image: radial-gradient(white 1px, transparent 0);
-            background-size: 40px 40px;
-            opacity: 0.15;
-            pointer-events: none;
-            z-index: 0;
-        }
+body {
+    min-height: 100vh;
+    overflow: hidden;
+    color: var(--white);
+    background:
+        radial-gradient(ellipse at 50% 75%, #26385c 0%, transparent 48%),
+        radial-gradient(ellipse at 20% 20%, #24264a 0%, transparent 45%),
+        linear-gradient(145deg, #070D1D, #101D3A 55%, #080D1C);
+}
 
-        header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 14px 20px;
-            background: rgba(15, 23, 42, 0.85);
-            backdrop-filter: blur(10px);
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-            z-index: 10;
-        }
+/* COSMIC SKY */
 
-        .brand {
-            font-size: 1.15rem;
-            font-weight: 700;
-            letter-spacing: 0.5px;
-            background: linear-gradient(90deg, #f97316, #fbbf24);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
+#stars {
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    overflow: hidden;
+    z-index: 0;
+}
 
-        .settings-btn {
-            background: none;
-            border: none;
-            color: var(--text-light);
-            font-size: 1.4rem;
-            cursor: pointer;
-            padding: 4px;
-            border-radius: 50%;
-            transition: background 0.2s;
-        }
+.star {
+    position: absolute;
+    width: 2px;
+    height: 2px;
+    background: #fff;
+    border-radius: 50%;
+    opacity: .6;
+    animation: twinkle 3s infinite alternate;
+}
 
-        .settings-btn:active {
-            background: rgba(255, 255, 255, 0.1);
-        }
+@keyframes twinkle {
+    from { opacity: .2; transform: scale(.8); }
+    to { opacity: 1; transform: scale(1.5); }
+}
 
-        /* Main Layout container - Surya Orb on top, chat below */
-        .main-container {
-            flex: 1;
-            display: flex;
-            flex-direction: column;
-            max-width: 600px;
-            width: 100%;
-            margin: 0 auto;
-            padding: 16px;
-            z-index: 1;
-            gap: 16px;
-        }
+.nebula {
+    position: fixed;
+    width: 350px;
+    height: 350px;
+    border-radius: 50%;
+    filter: blur(100px);
+    opacity: .13;
+    pointer-events: none;
+}
 
-        /* Surya Sunrise Voice Orb Section (Moved to Top) */
-        .surya-section {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            padding: 20px 0;
-            background: rgba(30, 41, 59, 0.5);
-            border-radius: 20px;
-            border: 1px solid rgba(249, 115, 22, 0.2);
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
-        }
+.nebula.one {
+    background: #7779A9;
+    top: 10%;
+    left: -100px;
+}
 
-        .surya-orb {
-            width: 90px;
-            height: 90px;
-            border-radius: 50%;
-            background: radial-gradient(circle at 30% 30%, #fed7aa 0%, #f97316 60%, #c2410c 100%);
-            box-shadow: 0 0 30px var(--surya-glow), inset 0 0 15px rgba(255, 255, 255, 0.5);
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: transform 0.2s, box-shadow 0.2s;
-            position: relative;
-        }
+.nebula.two {
+    background: #D9B45B;
+    bottom: 5%;
+    right: -120px;
+}
 
-        .surya-orb:active {
-            transform: scale(0.95);
-        }
+/* HEADER */
 
-        .surya-orb.listening {
-            animation: pulse-glow 1.5s infinite;
-        }
+header {
+    position: relative;
+    z-index: 5;
+    padding: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
 
-        @keyframes pulse-glow {
-            0% { box-shadow: 0 0 15px var(--surya-glow); }
-            50% { box-shadow: 0 0 45px #f97316, 0 0 15px #ffffff; }
-            100% { box-shadow: 0 0 15px var(--surya-glow); }
-        }
+.brand {
+    color: var(--gold);
+    font-size: 19px;
+    font-weight: 750;
+    letter-spacing: 1px;
+    text-shadow: 0 0 15px #D9B45B55;
+}
 
-        .surya-icon {
-            font-size: 2.2rem;
-        }
+.settings {
+    border: none;
+    background: transparent;
+    color: var(--silver);
+    font-size: 25px;
+    cursor: pointer;
+}
 
-        .orb-instruction {
-            margin-top: 10px;
-            font-size: 0.85rem;
-            color: var(--text-muted);
-            letter-spacing: 0.3px;
-        }
+/* MAIN */
 
-        /* WhatsApp-Style Rolling Chat History Log (Below Orb) */
-        .chat-container {
-            flex: 1;
-            min-height: 250px;
-            max-height: 380px;
-            background: rgba(15, 23, 42, 0.6);
-            border: 1px solid rgba(255, 255, 255, 0.08);
-            border-radius: 16px;
-            padding: 14px;
-            overflow-y: auto;
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-            backdrop-filter: blur(5px);
-        }
+.main {
+    position: relative;
+    z-index: 2;
+    max-width: 600px;
+    width: 100%;
+    height: calc(100dvh - 75px);
+    margin: auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 10px 18px 15px;
+}
 
-        .chat-bubble {
-            max-width: 82%;
-            padding: 10px 14px;
-            border-radius: 14px;
-            font-size: 0.92rem;
-            line-height: 1.4;
-            word-wrap: break-word;
-            animation: fadeIn 0.3s ease;
-        }
+/* FLOATING SUN */
 
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(6px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
+.sun-area {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 25px 0 15px;
+}
 
-        .chat-bubble.ai {
-            background: var(--chat-bubble-ai);
-            color: var(--text-light);
-            align-self: flex-start;
-            border-bottom-left-radius: 4px;
-            border: 1px solid rgba(255, 255, 255, 0.05);
-        }
+.sun {
+    width: 125px;
+    height: 125px;
+    border-radius: 50%;
+    background:
+        radial-gradient(circle at 30% 25%,
+        #fff5c9 0%, #e9ce86 16%,
+        #D9B45B 48%, #80602c 100%);
+    box-shadow:
+        0 0 30px #D9B45B77,
+        0 0 75px #D9B45B33,
+        inset -10px -10px 25px #332b22aa,
+        inset 8px 8px 20px #fff5c966;
+    animation: floatSun 5s ease-in-out infinite;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 44px;
+    transition: .3s;
+}
 
-        .chat-bubble.user {
-            background: var(--chat-bubble-user);
-            color: white;
-            align-self: flex-end;
-            border-bottom-right-radius: 4px;
-        }
+@keyframes floatSun {
+    0%,100% { transform: translateY(0); }
+    50% { transform: translateY(-13px); }
+}
 
-        /* Grounding Earth/Slate Text Input Bar */
-        .input-bar-container {
-            display: flex;
-            gap: 8px;
-            background: var(--earth-slate);
-            padding: 8px;
-            border-radius: 14px;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-        }
+.sun.listening {
+    box-shadow:
+        0 0 45px #D9B45B,
+        0 0 100px #D9B45B99;
+}
 
-        .text-input {
-            flex: 1;
-            background: transparent;
-            border: none;
-            color: var(--text-light);
-            font-size: 0.95rem;
-            padding: 8px 10px;
-            outline: none;
-        }
+.sun.speaking {
+    animation: speakPulse .7s infinite alternate;
+}
 
-        .text-input::placeholder {
-            color: var(--text-muted);
-        }
+@keyframes speakPulse {
+    from { transform: scale(1); }
+    to { transform: scale(1.09); }
+}
 
-        .send-btn {
-            background: var(--surya-sunrise);
-            color: white;
-            border: none;
-            padding: 8px 16px;
-            border-radius: 10px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: background 0.2s;
-        }
+.sun-label {
+    color: var(--silver);
+    font-size: 12px;
+    margin-top: 18px;
+    letter-spacing: 1px;
+}
 
-        .send-btn:active {
-            background: #ea580c;
-        }
+/* FLOATING CHAT */
 
-        /* Settings Drawer / Modal */
-        .modal-overlay {
-            position: fixed;
-            top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0, 0, 0, 0.7);
-            backdrop-filter: blur(4px);
-            display: none;
-            justify-content: center;
-            align-items: flex-end;
-            z-index: 100;
-        }
+.chat {
+    width: 100%;
+    flex: 1;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 17px;
+    padding: 15px 5px 100px;
+    scrollbar-width: none;
+}
 
-        .modal-overlay.active {
-            display: flex;
-        }
+.chat::-webkit-scrollbar {
+    display: none;
+}
 
-        .settings-modal {
-            background: #1e293b;
-            width: 100%;
-            max-width: 600px;
-            border-top-left-radius: 24px;
-            border-top-right-radius: 24px;
-            padding: 24px;
-            display: flex;
-            flex-direction: column;
-            gap: 18px;
-            border-top: 1px solid rgba(255, 255, 255, 0.15);
-            animation: slideUp 0.3s ease;
-        }
+.message {
+    max-width: 85%;
+    padding: 8px 12px;
+    line-height: 1.6;
+    font-size: 15px;
+    animation: appear .35s ease;
+    text-shadow: 0 2px 8px #0008;
+    overflow-wrap: anywhere;
+}
 
-        @keyframes slideUp {
-            from { transform: translateY(100%); }
-            to { transform: translateY(0); }
-        }
+@keyframes appear {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
 
-        .modal-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            font-size: 1.1rem;
-            font-weight: 700;
-        }
+.ai {
+    align-self: flex-start;
+    color: var(--silver);
+}
 
-        .close-modal {
-            background: none;
-            border: none;
-            color: var(--text-muted);
-            font-size: 1.3rem;
-            cursor: pointer;
-        }
+.user {
+    align-self: flex-end;
+    color: #F1D99D;
+    text-align: right;
+}
 
-        .setting-group {
-            display: flex;
-            flex-direction: column;
-            gap: 6px;
-        }
+/* BOTTOM COMMAND BAR */
 
-        .setting-group label {
-            font-size: 0.85rem;
-            color: var(--text-muted);
-        }
+.bottom-area {
+    position: fixed;
+    z-index: 10;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    padding: 15px 16px calc(15px + env(safe-area-inset-bottom));
+    background: linear-gradient(transparent, #101D3Aee 35%);
+}
 
-        .setting-group select {
-            background: #0f172a;
-            color: var(--text-light);
-            border: 1px solid rgba(255, 255, 255, 0.15);
-            padding: 10px;
-            border-radius: 10px;
-            font-size: 0.95rem;
-            outline: none;
-        }
-    </style>
+.input-bar {
+    max-width: 570px;
+    margin: auto;
+    display: flex;
+    align-items: center;
+    padding: 7px 9px 7px 17px;
+    border-radius: 40px;
+    background: #263653bb;
+    backdrop-filter: blur(18px);
+    border: 1px solid #D9B45B55;
+    box-shadow: 0 0 25px #0005;
+}
+
+.input-bar input {
+    flex: 1;
+    min-width: 0;
+    border: none;
+    outline: none;
+    background: transparent;
+    color: white;
+    font-size: 15px;
+    padding: 11px 5px;
+}
+
+.input-bar input::placeholder {
+    color: #B9C7D5aa;
+}
+
+.circle-btn {
+    width: 43px;
+    height: 43px;
+    flex-shrink: 0;
+    border: none;
+    border-radius: 50%;
+    background: transparent;
+    color: var(--gold);
+    font-size: 21px;
+    cursor: pointer;
+}
+
+.send {
+    background: var(--gold);
+    color: #101D3A;
+    font-size: 18px;
+    font-weight: bold;
+}
+
+/* ALARM STOP */
+
+.stop-btn {
+    display: none;
+    position: fixed;
+    z-index: 20;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    border: 1px solid #fff4;
+    border-radius: 50px;
+    padding: 17px 42px;
+    background: #D9B45B;
+    color: #101D3A;
+    font-size: 19px;
+    font-weight: bold;
+    box-shadow: 0 0 40px #D9B45B99;
+    cursor: pointer;
+}
+
+.stop-btn.active {
+    display: block;
+}
+
+/* SETTINGS */
+
+.settings-panel {
+    display: none;
+    position: fixed;
+    z-index: 30;
+    top: 65px;
+    right: 15px;
+    width: min(290px, calc(100vw - 30px));
+    padding: 20px;
+    border: 1px solid #D9B45B55;
+    border-radius: 20px;
+    background: #101D3Aee;
+    backdrop-filter: blur(20px);
+    box-shadow: 0 10px 40px #0008;
+}
+
+.settings-panel.active {
+    display: block;
+}
+
+.settings-panel h3 {
+    color: var(--gold);
+    margin-bottom: 15px;
+}
+
+.setting {
+    margin: 14px 0;
+}
+
+.setting label {
+    display: block;
+    color: var(--silver);
+    font-size: 13px;
+    margin-bottom: 7px;
+}
+
+.setting select, .setting input {
+    width: 100%;
+    padding: 10px;
+    border-radius: 10px;
+    border: 1px solid #ffffff33;
+    background: #172746;
+    color: white;
+}
+
+@media(max-height: 650px) {
+    .sun-area { padding: 8px 0; }
+    .sun { width: 90px; height: 90px; }
+    .sun-label { margin-top: 10px; }
+}
+</style>
 </head>
+
 <body>
 
-    <header>
-        <div class="brand">PDW PrabhatTalk Alarm</div>
-        <button class="settings-btn" id="openSettings">⚙️</button>
-    </header>
+<div id="stars"></div>
+<div class="nebula one"></div>
+<div class="nebula two"></div>
 
-    <div class="main-container">
-        <!-- Surya Sunrise Orb Section (Now on Top) -->
-        <div class="surya-section">
-            <div class="surya-orb" id="suryaOrb" title="Tap or Hold to Speak">
-                <span class="surya-icon">🌅</span>
-            </div>
-            <div class="orb-instruction" id="orbInstruction">Tap orb to speak with your mentor</div>
-        </div>
+<header>
+    <div class="brand">PDW PrabhatTalk Alarm</div>
+    <button class="settings" id="settingsButton">⚙</button>
+</header>
 
-        <!-- WhatsApp-Style Chat History Log (Below Orb) -->
-        <div class="chat-container" id="chatContainer">
-            <div class="chat-bubble ai">Namaste. I am your morning mentor. What is your primary purpose for waking up early today?</div>
-        </div>
+<main class="main">
 
-        <!-- Grounding Slate Input Bar -->
-        <div class="input-bar-container">
-            <input type="text" class="text-input" id="textInput" placeholder="Type your response here...">
-            <button class="send-btn" id="sendBtn">Send</button>
+    <section class="sun-area">
+        <div class="sun" id="sun">☀</div>
+        <div class="sun-label" id="status">
+            YOUR COSMIC MORNING COMPANION
         </div>
+    </section>
+
+    <section class="chat" id="chat"></section>
+
+</main>
+
+<div class="bottom-area">
+    <div class="input-bar">
+        <input
+            type="text"
+            id="command"
+            placeholder="Tell me what you need..."
+            autocomplete="off"
+        >
+        <button class="circle-btn" id="mic">🎙</button>
+        <button class="circle-btn send" id="send">➤</button>
+    </div>
+</div>
+
+<button class="stop-btn" id="stop">STOP ALARM</button>
+
+<div class="settings-panel" id="settingsPanel">
+    <h3>⚙ Settings</h3>
+
+    <div class="setting">
+        <label>Language / भाषा</label>
+        <select id="language">
+            <option value="en-US">English</option>
+            <option value="hi-IN">Hindi</option>
+            <option value="mr-IN">Marathi</option>
+        </select>
     </div>
 
-    <!-- Settings Drawer Modal -->
-    <div class="modal-overlay" id="settingsModal">
-        <div class="settings-modal">
-            <div class="modal-header">
-                <span>Alarm Settings</span>
-                <button class="close-modal" id="closeSettings">✕</button>
-            </div>
-            <div class="setting-group">
-                <label for="langSelect">Language / भाषा</label>
-                <select id="langSelect">
-                    <option value="en">English</option>
-                    <option value="hi">Hindi (हिन्दी)</option>
-                    <option value="mr">Marathi (मराठी)</option>
-                </select>
-            </div>
-            <div class="setting-group">
-                <label for="speedSelect">Speech Speed (YouTube Style)</label>
-                <select id="speedSelect">
-                    <option value="0.9">0.9x (Relaxed)</option>
-                    <option value="1.0" selected>1.0x (Normal)</option>
-                    <option value="1.1">1.1x (Energetic)</option>
-                    <option value="1.25">1.25x (Fast)</option>
-                </select>
-            </div>
-            <div class="setting-group">
-                <label for="formatSelect">Timeline Format</label>
-                <select id="formatSelect">
-                    <option value="12">12-hour (AM/PM)</option>
-                    <option value="24">24-hour</option>
-                </select>
-            </div>
-        </div>
+    <div class="setting">
+        <label>Speech Speed</label>
+        <select id="speed">
+            <option value="0.9">0.9x</option>
+            <option value="1">1.0x</option>
+            <option value="1.1">1.1x</option>
+            <option value="1.25">1.25x</option>
+        </select>
     </div>
 
-    <script>
-        const chatContainer = document.getElementById('chatContainer');
-        const textInput = document.getElementById('textInput');
-        const sendBtn = document.getElementById('sendBtn');
-        const suryaOrb = document.getElementById('suryaOrb');
-        const orbInstruction = document.getElementById('orbInstruction');
-        const settingsModal = document.getElementById('settingsModal');
-        const openSettings = document.getElementById('openSettings');
-        const closeSettings = document.getElementById('closeSettings');
-        const langSelect = document.getElementById('langSelect');
-        const speedSelect = document.getElementById('speedSelect');
+    <div class="setting">
+        <label>Clock Format</label>
+        <select id="clock">
+            <option value="12">12-hour</option>
+            <option value="24">24-hour</option>
+        </select>
+    </div>
 
-        let conversationStep = 0;
+    <div class="setting">
+        <label>Assistant Name</label>
+        <input id="assistantName" placeholder="Enter assistant name">
+    </div>
 
-        // Settings Modal toggles
-        openSettings.addEventListener('click', () => settingsModal.classList.add('active'));
-        closeSettings.addEventListener('click', () => settingsModal.classList.remove('active'));
-        settingsModal.addEventListener('click', (e) => {
-            if (e.target === settingsModal) settingsModal.classList.remove('active');
+    <div class="setting">
+        <label>Activation Phrase</label>
+        <input id="activation" placeholder="Enter activation phrase">
+    </div>
+</div>
+
+<script>
+/* COSMIC STARS */
+
+const stars = document.getElementById("stars");
+
+for (let i = 0; i < 130; i++) {
+    const star = document.createElement("div");
+    star.className = "star";
+    star.style.left = Math.random() * 100 + "%";
+    star.style.top = Math.random() * 100 + "%";
+    star.style.animationDelay = Math.random() * 4 + "s";
+    stars.appendChild(star);
+}
+
+/* ELEMENTS */
+
+const chat = document.getElementById("chat");
+const command = document.getElementById("command");
+const sun = document.getElementById("sun");
+const statusText = document.getElementById("status");
+const stopBtn = document.getElementById("stop");
+const language = document.getElementById("language");
+const speed = document.getElementById("speed");
+const settingsPanel = document.getElementById("settingsPanel");
+
+let alarmTimeout = null;
+let alarmInterval = null;
+let alarmActive = false;
+let audioContext = null;
+let alarmEndTime = null;
+
+let conversation = [];
+let assistantName = localStorage.getItem("assistantName") || "Prabhat";
+let activationPhrase = localStorage.getItem("activation") || "Hello Prabhat";
+
+/* SETTINGS */
+
+document.getElementById("settingsButton").onclick = () => {
+    settingsPanel.classList.toggle("active");
+};
+
+document.getElementById("assistantName").value = assistantName;
+document.getElementById("activation").value = activationPhrase;
+
+document.getElementById("assistantName").onchange = e => {
+    assistantName = e.target.value.trim() || "Prabhat";
+    localStorage.setItem("assistantName", assistantName);
+};
+
+document.getElementById("activation").onchange = e => {
+    activationPhrase = e.target.value.trim();
+    localStorage.setItem("activation", activationPhrase);
+};
+
+/* CHAT */
+
+function addMessage(text, sender) {
+    const bubble = document.createElement("div");
+    bubble.className = "message " + sender;
+    bubble.textContent = text;
+    chat.appendChild(bubble);
+    chat.scrollTop = chat.scrollHeight;
+    conversation.push({text, sender});
+
+    if (conversation.length > 60) conversation.shift();
+}
+
+/* VOICE */
+
+function speak(text) {
+    if (!("speechSynthesis" in window)) return;
+
+    speechSynthesis.cancel();
+
+    const utterance = new SpeechSynthesisUtterance(text);
+    utterance.lang = language.value;
+    utterance.rate = Number(speed.value);
+    utterance.pitch = 1;
+
+    utterance.onstart = () => sun.classList.add("speaking");
+    utterance.onend = () => sun.classList.remove("speaking");
+    utterance.onerror = () => sun.classList.remove("speaking");
+
+    speechSynthesis.speak(utterance);
+}
+
+function respond(text) {
+    addMessage(text, "ai");
+    speak(text);
+}
+
+/* ALARM SOUND */
+
+function playTone() {
+    const AudioContextClass =
+        window.AudioContext || window.webkitAudioContext;
+
+    if (!AudioContextClass) return;
+
+    audioContext = audioContext || new AudioContextClass();
+
+    audioContext.resume().then(() => {
+        for (let i = 0; i < 3; i++) {
+            const oscillator = audioContext.createOscillator();
+            const gain = audioContext.createGain();
+
+            oscillator.type = "sine";
+            oscillator.frequency.value = 660 + i * 110;
+
+            gain.gain.setValueAtTime(0, audioContext.currentTime + i * 0.65);
+            gain.gain.linearRampToValueAtTime(
+                0.25, audioContext.currentTime + i * 0.65 + 0.05
+            );
+            gain.gain.setValueAtTime(
+                0, audioContext.currentTime + i * 0.65 + 0.45
+            );
+
+            oscillator.connect(gain);
+            gain.connect(audioContext.destination);
+
+            oscillator.start(audioContext.currentTime + i * 0.65);
+            oscillator.stop(audioContext.currentTime + i * 0.65 + 0.5);
+        }
+    });
+}
+
+/* SET ALARM */
+
+function setAlarm(milliseconds) {
+    clearTimeout(alarmTimeout);
+    clearInterval(alarmInterval);
+
+    const target = Date.now() + milliseconds;
+    alarmEndTime = target;
+
+    alarmTimeout = setTimeout(() => {
+        startAlarm();
+    }, milliseconds);
+
+    respond("Your alarm is successfully scheduled. I will wake you up at " +
+        new Date(target).toLocaleTimeString([], {
+            hour: "2-digit",
+            minute: "2-digit"
+        }) + ".");
+}
+
+/* ALARM RINGING */
+
+function startAlarm() {
+    alarmActive = true;
+    stopBtn.classList.add("active");
+    sun.classList.add("listening");
+    statusText.textContent = "YOUR WAKE-UP TIME HAS ARRIVED";
+
+    playTone();
+
+    alarmInterval = setInterval(() => {
+        if (alarmActive) playTone();
+    }, 5000);
+
+    if ("Notification" in window &&
+        Notification.permission === "granted") {
+        new Notification("PDW PrabhatTalk Alarm", {
+            body: "Wake up! Your alarm is ringing."
         });
+    }
+}
 
-        // Clean, Normal Male Voice Synthesizer (No harsh distortion or deep vibration)
-        function speakNormalVoice(text) {
-            const lang = langSelect.value;
-            const speed = parseFloat(speedSelect.value);
-            
-            if ('speechSynthesis' in window) {
-                window.speechSynthesis.cancel();
-                const utterance = new SpeechSynthesisUtterance(text);
-                
-                const targetLang = lang === 'hi' ? 'hi-IN' : (lang === 'mr' ? 'mr-IN' : 'en-US');
-                utterance.lang = targetLang;
-                utterance.rate = speed; 
-                utterance.pitch = 1.0; // Standard normal pitch for a clean, natural voice
+/* STOP ALARM */
 
-                const voices = window.speechSynthesis.getVoices();
-                const selectedVoice = voices.find(v => v.lang.includes(targetLang) && (v.name.includes('Male') || v.name.includes('Google') || v.name.includes('Natural')));
-                
-                if (selectedVoice) {
-                    utterance.voice = selectedVoice;
-                }
+function stopAlarm() {
+    if (!alarmActive && !alarmTimeout) return;
 
-                window.speechSynthesis.speak(utterance);
-            }
+    clearTimeout(alarmTimeout);
+    clearInterval(alarmInterval);
+
+    alarmTimeout = null;
+    alarmInterval = null;
+    alarmEndTime = null;
+    alarmActive = false;
+
+    stopBtn.classList.remove("active");
+    sun.classList.remove("listening");
+    statusText.textContent = "YOUR COSMIC MORNING COMPANION";
+
+    if (audioContext) audioContext.suspend();
+
+    if ("speechSynthesis" in window) speechSynthesis.cancel();
+
+    respond("Wonderful! You're awake. Let's make this morning productive.");
+}
+
+stopBtn.onclick = stopAlarm;
+
+/* COMMAND INTERPRETATION */
+
+function processCommand(input) {
+    const text = input.trim();
+    if (!text) return;
+
+    addMessage(text, "user");
+    command.value = "";
+
+    const lower = text.toLowerCase();
+
+    if (
+        lower.includes("stop alarm") ||
+        lower.includes("cancel alarm") ||
+        lower.includes("i am awake") ||
+        lower.includes("okay okay")
+    ) {
+        stopAlarm();
+        return;
+    }
+
+    if (
+        lower.includes("cancel") &&
+        (lower.includes("alarm") || lower.includes("reminder"))
+    ) {
+        clearTimeout(alarmTimeout);
+        clearInterval(alarmInterval);
+        alarmTimeout = null;
+        alarmInterval = null;
+        alarmEndTime = null;
+        alarmActive = false;
+        stopBtn.classList.remove("active");
+        sun.classList.remove("listening");
+        respond("Your alarm has been cancelled.");
+        return;
+    }
+
+    /* TIME COMMANDS */
+
+    const match = lower.match(
+        /(\d+(?:\.\d+)?)\s*(seconds?|secs?|minutes?|mins?|hours?|hrs?)/
+    );
+
+    const devanagari = text.match(
+        /(\d+)\s*(मिनिट|मिनिटांनी|तास|तासांनी)/
+    );
+
+    if (
+        match &&
+        /(alarm|wake|remind|set|mujhe|uthana|uthao|lagao|baad|after)/i.test(lower)
+    ) {
+        const number = Number(match[1]);
+        const unit = match[2];
+
+        let multiplier = 60000;
+
+        if (unit.startsWith("sec")) multiplier = 1000;
+        if (unit.startsWith("hour") || unit.startsWith("hr")) {
+            multiplier = 3600000;
         }
 
-        if ('speechSynthesis' in window) {
-            window.speechSynthesis.onvoiceschanged = () => window.speechSynthesis.getVoices();
+        if (number > 0 && number <= 8760) {
+            setAlarm(number * multiplier);
+            return;
+        }
+    }
+
+    if (devanagari && /(अलार्म|उठव|लाव|जाग)/.test(text)) {
+        const number = Number(devanagari[1]);
+        const multiplier = devanagari[2].includes("तास")
+            ? 3600000 : 60000;
+
+        setAlarm(number * multiplier);
+        return;
+    }
+
+    /* CLOCK TIME COMMAND */
+
+    if (/tomorrow|उद्या/.test(lower) &&
+        /(\d{1,2})(?::(\d{2}))?\s*(am|pm)/i.test(lower)) {
+
+        const timeMatch = lower.match(
+            /(\d{1,2})(?::(\d{2}))?\s*(am|pm)/i
+        );
+
+        let hour = Number(timeMatch[1]);
+        const minute = Number(timeMatch[2] || 0);
+
+        if (timeMatch[3] === "pm" && hour !== 12) hour += 12;
+        if (timeMatch[3] === "am" && hour === 12) hour = 0;
+
+        const target = new Date();
+        target.setDate(target.getDate() + 1);
+        target.setHours(hour, minute, 0, 0);
+
+        setAlarm(target.getTime() - Date.now());
+        return;
+    }
+
+    /* NATURAL CONVERSATION */
+
+    if (conversation.length < 5) {
+        respond(
+            "Namaste! I am " + assistantName +
+            ". You can tell me your plans, set an alarm or talk about your morning routine."
+        );
+    } else {
+        respond(
+            "I am listening. Tell me more, or give me an alarm command. " +
+            "For example, set alarm for 1 hour."
+        );
+    }
+}
+
+/* INPUT */
+
+document.getElementById("send").onclick = () =>
+    processCommand(command.value);
+
+command.addEventListener("keydown", e => {
+    if (e.key === "Enter") processCommand(command.value);
+});
+
+/* SPEECH RECOGNITION */
+
+const Recognition =
+    window.SpeechRecognition || window.webkitSpeechRecognition;
+
+let recognition = null;
+
+if (Recognition) {
+    recognition = new Recognition();
+    recognition.continuous = false;
+    recognition.interimResults = false;
+
+    recognition.onstart = () => {
+        sun.classList.add("listening");
+        statusText.textContent = "LISTENING TO YOUR VOICE...";
+    };
+
+    recognition.onresult = event => {
+        const transcript = event.results[0][0].transcript;
+
+        sun.classList.remove("listening");
+        statusText.textContent = "YOUR COSMIC MORNING COMPANION";
+
+        if (alarmActive &&
+            /(okay.*awake|i am awake|i'm awake)/i.test(transcript)) {
+            stopAlarm();
+            return;
         }
 
-        function addMessage(text, sender) {
-            const bubble = document.createElement('div');
-            bubble.className = `chat-bubble ${sender}`;
-            bubble.textContent = text;
-            chatContainer.appendChild(bubble);
-            chatContainer.scrollTop = chatContainer.scrollHeight;
+        processCommand(transcript);
+    };
+
+    recognition.onerror = () => {
+        sun.classList.remove("listening");
+        statusText.textContent = "VOICE RECOGNITION UNAVAILABLE";
+    };
+
+    recognition.onend = () => {
+        sun.classList.remove("listening");
+        if (!alarmActive) {
+            statusText.textContent =
+                "YOUR COSMIC MORNING COMPANION";
         }
+    };
+}
 
-        function handleUserResponse(input) {
-            if (!input.trim()) return;
-            addMessage(input, 'user');
-            textInput.value = '';
+document.getElementById("mic").onclick = () => {
+    if (!recognition) {
+        respond("Voice recognition is not supported in this browser.");
+        return;
+    }
 
-            setTimeout(() => {
-                let reply = "";
-                if (conversationStep === 0) {
-                    reply = "Wonderful. Setting your intention for " + input + " brings great focus. Now, what reminder frequency or interval would you like? (e.g., reminders for water, jogging, or study countdowns).";
-                    conversationStep = 1;
-                } else if (conversationStep === 1) {
-                    reply = "Understood. I have locked in your schedule with " + input + " intervals. Your alarm is fully configured and ready for an energetic morning!";
-                    conversationStep = 2;
-                } else {
-                    reply = "I am listening. Let me know whenever you need adjustments to your routine.";
-                }
-                addMessage(reply, 'ai');
-                speakNormalVoice(reply);
-            }, 800);
+    recognition.lang = language.value;
+
+    try {
+        recognition.start();
+    } catch (error) {
+        statusText.textContent = "PLEASE TRY AGAIN";
+    }
+};
+
+/* NOTIFICATIONS */
+
+if ("Notification" in window &&
+    Notification.permission === "default") {
+    // Ask only after a deliberate user action.
+    document.getElementById("settingsButton").addEventListener(
+        "contextmenu", async e => {
+            e.preventDefault();
+            await Notification.requestPermission();
         }
+    );
+}
 
-        sendBtn.addEventListener('click', () => handleUserResponse(textInput.value));
-        textInput.addEventListener('keypress', (e) => {
-            if (e.key === 'Enter') handleUserResponse(textInput.value);
-        });
+/* SURYA ORB */
 
-        // Speech Recognition Setup
-        const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
-        if (SpeechRecognition) {
-            const recognition = new SpeechRecognition();
-            recognition.continuous = false;
-            recognition.interimResults = false;
+sun.onclick = () => {
+    if (recognition) {
+        recognition.lang = language.value;
+        try {
+            recognition.start();
+        } catch (error) {}
+    }
+};
 
-            suryaOrb.addEventListener('click', () => {
-                const lang = langSelect.value;
-                recognition.lang = lang === 'hi' ? 'hi-IN' : (lang === 'mr' ? 'mr-IN' : 'en-US');
-                suryaOrb.classList.add('listening');
-                orbInstruction.textContent = "Listening to your voice...";
-                recognition.start();
-            });
+/* NO AUTOMATIC GREETING */
+</script>
 
-            recognition.onresult = (event) => {
-                const speechToText = event.results[0][0].transcript;
-                suryaOrb.classList.remove('listening');
-                orbInstruction.textContent = "Tap orb to speak with your mentor";
-                handleUserResponse(speechToText);
-            };
-
-            recognition.onerror = () => {
-                suryaOrb.classList.remove('listening');
-                orbInstruction.textContent = "Tap orb to speak with your mentor";
-            };
-
-            recognition.onend = () => {
-                suryaOrb.classList.remove('listening');
-                orbInstruction.textContent = "Tap orb to speak with your mentor";
-            };
-        } else {
-            suryaOrb.addEventListener('click', () => {
-                alert("Speech recognition is not supported on this browser. Please use the text input below.");
-            });
-        }
-    </script>
 </body>
 </html>
